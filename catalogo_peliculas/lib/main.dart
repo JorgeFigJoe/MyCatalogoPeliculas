@@ -1,7 +1,18 @@
 import 'package:catalogo_peliculas/LoginViewController.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+// Replace with actual values
+    options: const FirebaseOptions(
+      apiKey: "XXX",
+      appId: "1:93762009077:android:aaf0ec6e0b5bc209c592bc",
+      messagingSenderId: "XXX",
+      projectId: "catalogopeliculassfje",
+    ),
+  );
   runApp(MaterialApp(
     title: 'Catalogo de peliculas',
     home: HomeScreen(),
