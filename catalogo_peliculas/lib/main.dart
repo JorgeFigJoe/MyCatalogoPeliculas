@@ -63,7 +63,11 @@ class Accounts extends StatelessWidget{
         Container(
           padding: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
           child: RaisedButton(
-            child: Text('Iniciar sesion'),
+            color: Colors.black38,
+            padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10),
+            child: Text('Iniciar sesion',
+              style: TextStyle(fontSize: 25, color: Colors.white),
+            ),
             onPressed: () {
               Navigator.push(
                 context,
@@ -74,7 +78,11 @@ class Accounts extends StatelessWidget{
         ),
         Container(
           child: RaisedButton(
-            child: Text('Crear una cuenta nueva'),
+            color: Colors.black38,
+            padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10),
+            child: Text('Crear una cuenta nueva',
+              style: TextStyle(fontSize: 25, color: Colors.white),
+            ),
             onPressed: () {
               Navigator.push(
                 context,
