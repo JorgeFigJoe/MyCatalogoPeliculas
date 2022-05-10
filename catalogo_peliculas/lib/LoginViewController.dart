@@ -1,4 +1,5 @@
 import 'package:catalogo_peliculas/HomeViewController.dart';
+import 'package:catalogo_peliculas/SearchMovieViewController.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -101,7 +102,7 @@ void getUsers(String email, String password, BuildContext context) async{
         print('Bienvenido');
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomeViewController()),
+          MaterialPageRoute(builder: (context) => SearchViewController()),
         );
         return;
       }
