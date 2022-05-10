@@ -1,3 +1,4 @@
+import 'package:catalogo_peliculas/CreateAccountViewContrroller.dart';
 import 'package:catalogo_peliculas/LoginViewController.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +61,7 @@ class Accounts extends StatelessWidget{
       // crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Container(
+          padding: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
           child: RaisedButton(
             child: Text('Iniciar sesion'),
             onPressed: () {
@@ -76,7 +78,7 @@ class Accounts extends StatelessWidget{
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => LoginViewController()),
+                MaterialPageRoute(builder: (context) => CreateAccountViewController()),
               );
             },
           ),

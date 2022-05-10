@@ -1,7 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class LoginViewController extends StatelessWidget {
+class CreateAccountViewController extends StatelessWidget {
+  @override
+  void initState(){
+    //super.initState();
+    getUsers();
+  }
+
+  void getUsers() async{
+    CollectionReference collectionReference = FirebaseFirestore.instance.collection("users");
+    QuerySnapshot users = await collectionReference.get();
+    if(users.docs.length != 0){
+      for(var doc in users.docs){
+        print(doc.data());
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +91,7 @@ Widget buttonVerify(BuildContext myContext){
         Navigator.pop(myContext);
       },
       child: Text(
-        "Iniciar sesión",
+        "Crear nueva cuenta",
         style: TextStyle(fontSize: 25, color: Colors.white),
       )
   );
