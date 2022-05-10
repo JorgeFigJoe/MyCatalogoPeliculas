@@ -2,27 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CreateAccountViewController extends StatelessWidget {
-  @override
-  void initState(){
-    //super.initState();
-    getUsers();
-  }
-
-  void getUsers() async{
-    CollectionReference collectionReference = FirebaseFirestore.instance.collection("users");
-    QuerySnapshot users = await collectionReference.get();
-    if(users.docs.length != 0){
-      for(var doc in users.docs){
-        print(doc.data());
-      }
-    }
-  }
+  final usuario = TextEditingController();
+  final pass = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Iniciar sesión"),
+        title: Text("Crear una cuenta nueva"),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -35,11 +22,11 @@ class CreateAccountViewController extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               campoText(),
-              campoUser(),
+              campoUser(usuario),
               campoTextPass(),
-              campoPass(),
+              campoPass(pass),
               SizedBox(height: 15,),
-              buttonVerify(context)
+              buttonVerify(context, usuario, pass)
             ],
           ),
         ),
@@ -48,10 +35,11 @@ class CreateAccountViewController extends StatelessWidget {
   }
 }
 
-Widget campoUser(){
+Widget campoUser(TextEditingController usuario){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
     child: TextField(
+      controller: usuario,
       decoration: InputDecoration(
         hintText: "Usuario",
         fillColor: Colors.white,
@@ -61,10 +49,11 @@ Widget campoUser(){
   );
 }
 
-Widget campoPass() {
+Widget campoPass(TextEditingController pass) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
     child: TextField(
+      controller: pass,
       obscureText: true,
       decoration: InputDecoration(
         hintText: "Contraseña",
@@ -83,16 +72,25 @@ Widget campoTextPass(){
   return Text("Ingrese la contraseña", style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),);
 }
 
-Widget buttonVerify(BuildContext myContext){
+Widget buttonVerify(BuildContext myContext,TextEditingController usuario, TextEditingController password){
   return FlatButton(
       color: Colors.black38,
       padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10),
       onPressed: (){
-        Navigator.pop(myContext);
+        //Navigator.pop(myContext);
+        addUser(usuario.text, password.text, myContext);
       },
       child: Text(
         "Crear nueva cuenta",
         style: TextStyle(fontSize: 25, color: Colors.white),
       )
   );
+}
+
+void addUser(String email, String password, BuildContext context) async{
+  FirebaseFirestore.instance.collection("users").add({
+    'email': email,
+    'password': password
+  });
+  Navigator.pop(context);
 }
