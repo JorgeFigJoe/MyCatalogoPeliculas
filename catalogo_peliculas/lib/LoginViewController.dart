@@ -1,7 +1,11 @@
+import 'package:catalogo_peliculas/HomeViewController.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class LoginViewController extends StatelessWidget {
+  final usuario = TextEditingController();
+  final pass = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,11 +23,11 @@ class LoginViewController extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               campoText(),
-              campoUser(),
+              campoUser(usuario),
               campoTextPass(),
-              campoPass(),
+              campoPass(pass),
               SizedBox(height: 15,),
-              buttonVerify(context)
+              buttonVerify(context, usuario, pass)
             ],
           ),
         ),
@@ -32,10 +36,11 @@ class LoginViewController extends StatelessWidget {
   }
 }
 
-Widget campoUser(){
+Widget campoUser(TextEditingController usuario){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
     child: TextField(
+      controller: usuario,
       decoration: InputDecoration(
         hintText: "Usuario",
         fillColor: Colors.white,
@@ -45,10 +50,11 @@ Widget campoUser(){
   );
 }
 
-Widget campoPass() {
+Widget campoPass(TextEditingController pass) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
     child: TextField(
+      controller: pass,
       obscureText: true,
       decoration: InputDecoration(
         hintText: "Contraseña",
@@ -67,16 +73,38 @@ Widget campoTextPass(){
   return Text("Ingrese la contraseña", style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),);
 }
 
-Widget buttonVerify(BuildContext myContext){
+Widget buttonVerify(BuildContext myContext,TextEditingController usuario, TextEditingController password){
   return FlatButton(
       color: Colors.black38,
       padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10),
       onPressed: (){
-        Navigator.pop(myContext);
+        //Navigator.pop(myContext);
+        getUsers(usuario.text, password.text, myContext);
       },
       child: Text(
         "Iniciar sesión",
         style: TextStyle(fontSize: 25, color: Colors.white),
       )
   );
+}
+
+void getUsers(String email, String password, BuildContext context) async{
+  CollectionReference collectionReference = FirebaseFirestore.instance.collection("users");
+  QuerySnapshot users = await collectionReference.get();
+  if(users.docs.length != 0){
+    List usuarios = [];
+    for(var doc in users.docs){
+      usuarios.add(doc.data());
+    }
+    for(var user in usuarios){
+      if(user['email'] == email && user['password'] == password){
+        print('Bienvenido');
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeViewController()),
+        );
+        return;
+      }
+    }
+  }
 }
