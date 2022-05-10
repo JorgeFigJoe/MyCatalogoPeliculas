@@ -79,7 +79,7 @@ class Accounts extends StatelessWidget{
           child: RaisedButton(
             color: Colors.black38,
             padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10),
-            child: Text('Crear una cuenta nueva',
+            child: Text('Crear cuenta',
               style: TextStyle(fontSize: 25, color: Colors.white),
             ),
             onPressed: () {
