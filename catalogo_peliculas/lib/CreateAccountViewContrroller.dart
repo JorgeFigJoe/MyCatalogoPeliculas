@@ -92,5 +92,8 @@ void addUser(String email, String password, BuildContext context) async{
     'email': email,
     'password': password
   });
+  FirebaseFirestore.instance.collection("moviesByUser").add({
+    'email': email
+  });
   Navigator.pop(context);
 }

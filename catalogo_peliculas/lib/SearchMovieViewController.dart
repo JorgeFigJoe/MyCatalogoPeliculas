@@ -57,7 +57,7 @@ class _SearchViewControllerState extends State<SearchViewController> {
                             Text(
                                 moviesList![index]['title']?? "Sin datos"
                             ),
-                            CachedNetworkImage(imageUrl: moviesList![index]['cover_url']),
+                            CachedNetworkImage(imageUrl: moviesList![index]['cover_url'], height: 150,),
                           ],
                         )
                     ),
