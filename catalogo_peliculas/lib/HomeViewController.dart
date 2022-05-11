@@ -48,7 +48,6 @@ class _HomeViewController extends State<HomeViewController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               buttonViewCatalogo(context),
-              //buttonViewMyCatalogo(context, emailUser),
               moviesList != null ? Expanded(child: GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:
               2, childAspectRatio: 1.4,
               ), itemCount: moviesList?.length,
@@ -57,7 +56,7 @@ class _HomeViewController extends State<HomeViewController> {
                     onTap: (){
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => DetailMovieViewControllerState(nameMovie: moviesList![index]['title']?? "Sin datos", imageMovie: moviesList![index]['cover_url'], dateMovie: moviesList![index]['release_date']?? "Sin datos", directorMovie: moviesList![index]['directed_by']?? "Sin datos", genereMovie: moviesList![index]['saga']?? "Sin datos", sinopsisMovie: moviesList![index]['overview']?? "Sin datos")),
+                        MaterialPageRoute(builder: (context) => DetailMovieViewControllerState(nameMovie: moviesList![index]['title']?? "Sin datos", imageMovie: moviesList![index]['cover_url'], dateMovie: moviesList![index]['release_date']?? "Sin datos", directorMovie: moviesList![index]['directed_by']?? "Sin datos", genereMovie: moviesList![index]['saga']?? "Sin datos", sinopsisMovie: moviesList![index]['overview']?? "Sin datos", emailUser: emailUser)),
                       );
                     },
                     child: Card(
@@ -89,7 +88,7 @@ class _HomeViewController extends State<HomeViewController> {
         onPressed: (){
           Navigator.push(
             myContext,
-            MaterialPageRoute(builder: (context) => SearchViewController()),
+            MaterialPageRoute(builder: (context) => SearchViewController(emailUser: emailUser)),
           );
         },
         child: Text(
@@ -97,39 +96,6 @@ class _HomeViewController extends State<HomeViewController> {
           style: TextStyle(fontSize: 25, color: Colors.white),
         )
     );
-  }
-
-  Widget buttonViewMyCatalogo(BuildContext myContext, String email){
-    return FlatButton(
-        color: Colors.black38,
-        padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10),
-        onPressed: (){
-          getMoviesByUser(email, myContext);
-        },
-        child: Text(
-          "Ver mi catalogo",
-          style: TextStyle(fontSize: 25, color: Colors.white),
-        )
-    );
-  }
-
-  void getMoviesByUser(String email, BuildContext context) async {
-    CollectionReference collectionReference = FirebaseFirestore.instance
-        .collection("moviesByUser");
-    QuerySnapshot users = await collectionReference.get();
-    if (users.docs.length != 0) {
-      List movies = [];
-      List moviesByUser = [];
-      for (var doc in users.docs) {
-        movies.add(doc.data());
-      }
-      for (var user in movies) {
-        if(user['email'] == email){
-          print(user['title']);
-          moviesList?.add(user);
-        }
-      }
-    }
   }
 
   void fetchMoviesByUser(String email) async{
@@ -144,7 +110,6 @@ class _HomeViewController extends State<HomeViewController> {
       for(var user in usuarios){
         if(user['email'] == email){
           auxiliaryMovies.add(user);
-          print('Si coincide');
         }
       }
       moviesList = auxiliaryMovies;

@@ -1,19 +1,29 @@
 import 'dart:convert';
-
 import 'package:catalogo_peliculas/DetailMovieViewController.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:cached_network_image/cached_network_image.dart';
 
 class SearchViewController extends StatefulWidget{
+
+  final String emailUser;
+  SearchViewController({
+    required this.emailUser
+  });
+
   @override
-  _SearchViewControllerState createState() => _SearchViewControllerState();
+  _SearchViewControllerState createState() => _SearchViewControllerState(emailUser: emailUser);
 }
 
 class _SearchViewControllerState extends State<SearchViewController> {
   var moviesApi = "https://mcuapi.herokuapp.com/api/v1/movies";
   List? moviesList;
+
+  final String emailUser;
+
+  _SearchViewControllerState({
+    required this.emailUser
+  });
 
   @override
   @override
@@ -48,7 +58,7 @@ class _SearchViewControllerState extends State<SearchViewController> {
                     onTap: (){
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => DetailMovieViewControllerState(nameMovie: moviesList![index]['title']?? "Sin datos", imageMovie: moviesList![index]['cover_url'], dateMovie: moviesList![index]['release_date']?? "Sin datos", directorMovie: moviesList![index]['directed_by']?? "Sin datos", genereMovie: moviesList![index]['saga']?? "Sin datos", sinopsisMovie: moviesList![index]['overview']?? "Sin datos")),
+                        MaterialPageRoute(builder: (context) => DetailMovieViewControllerState(nameMovie: moviesList![index]['title']?? "Sin datos", imageMovie: moviesList![index]['cover_url'], dateMovie: moviesList![index]['release_date']?? "Sin datos", directorMovie: moviesList![index]['directed_by']?? "Sin datos", genereMovie: moviesList![index]['saga']?? "Sin datos", sinopsisMovie: moviesList![index]['overview']?? "Sin datos", emailUser: emailUser)),
                       );
                     },
                     child: Card(
