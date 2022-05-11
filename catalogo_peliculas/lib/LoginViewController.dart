@@ -102,7 +102,7 @@ void getUsers(String email, String password, BuildContext context) async{
         print('Bienvenido');
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => SearchViewController()),
+          MaterialPageRoute(builder: (context) => HomeViewController(emailUser: email)),
         );
         return;
       }
