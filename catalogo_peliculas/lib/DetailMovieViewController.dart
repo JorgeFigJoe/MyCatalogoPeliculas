@@ -1,8 +1,5 @@
-import 'dart:html';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'SearchMovieViewController.dart';
 
   class DetailMovieViewControllerState extends StatelessWidget{
 
